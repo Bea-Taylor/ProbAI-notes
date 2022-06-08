@@ -1,4 +1,4 @@
-### Probabalistic Modeling and Programming 
-# Andres R. Masegosa, Thomas D. Nielsen 
+# Probabalistic Modeling and Programming 
+### Andres R. Masegosa, Thomas D. Nielsen 
 
 * First note 
