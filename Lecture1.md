@@ -1,7 +1,4 @@
-### 
-Introduction to Probabilistic Models 
-###
-
-- Antonio Salmeron 
+### Introduction to Probabilistic Models 
+# Antonio Salmeron 
 
 * This is my first note. 

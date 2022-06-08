@@ -1,7 +1,4 @@
-###
-Bayesian Workflow 
-### 
-
-- Elizaveta Semenova
+### Bayesian Workflow 
+# Elizaveta Semenova
 
 * a note 
