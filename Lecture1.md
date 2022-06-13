@@ -143,3 +143,9 @@ Have variables $X=(X_1,..., X_n)$. And evidence $X_E$.
 
 * Fundamental idea is to express the computation we want to solve in terms of the expectation of the random variable.  
 * We sample for a different population, $p^*$. $p^*$ is chosen to be very simple, it can be anyhting as long as it is non-negative for the same values as $p$. The accuracy depends on the choice of $p^*$ - if we choose $p^*$ as something close to $p$ then we get better accuracy. 
+
+**MCMC**
+
+* Danger is that you get stuck in one part of the population (local optima). 
+* More notes on the GitHub. 
+
