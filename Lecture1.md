@@ -62,13 +62,16 @@ In a frequentist approach, would assume that the parameter is a fixed value - it
 
 In a Bayesian approach, all parameters are random variables. Information about parameters can be included prior to observing data. 
 
-**INCOMPLETE**
 Distribution in a Bayesian model 
 The prior distribution $\pi(\theta)$
-The joint distribution of $X, y$ $$p(X, y)=$$
-The prior predictive distribution 
-The posterior distribution 
-The predictive distribution
+The joint distribution of $X, y$ 
+$$\psi (X, y)= f(x|\theta) \pi (\theta)$$
+The prior predictive distribution of X 
+$$ m(x) =\inf_{\theta} f(x| \theta) \pi (\theta) d\theta$$
+The posterior distribution of $\theta$
+$$ \pi(\theta |x) =\frac{f(x|\theta)\pi (\theta)}{\int_{\theta} f(x |\theta) \pi (\theta) d \theta} $$
+The predictive distribution given $ x= \{ x_1, ..., x_n \} $
+$$ f(x_{n+1} |x) = \int_{\theta} f(x_{n+1} | \theta, x)\pi(\theta |x) d \theta $$
 
 In this example the posterior distribtuion corresponds to a beta distribution. 
 
