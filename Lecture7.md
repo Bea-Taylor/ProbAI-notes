@@ -55,3 +55,4 @@
 * provide meaningful... 
 
 Good (old-ish) book - Gaussian processes for machine learning - Rasmussen. 
+
