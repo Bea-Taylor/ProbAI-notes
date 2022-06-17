@@ -59,3 +59,6 @@ Traditionally use interpretable models, need to make an efoort to explain more c
 
 **How do we explain a model?** 
 * Think about local (personal decision) based explanations vs. more global explanations
+
+
+Paper on: [The next generation of medical decision support](https://pubmed.ncbi.nlm.nih.gov/33733193/)
