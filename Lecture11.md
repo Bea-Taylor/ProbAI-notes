@@ -73,5 +73,5 @@ Can use shannon entropy to compute uncertainty.
 $H[p]=- \sum plog(p)$ 
 
 ### Applications 
-
+u
 BBNs in medical imaging - Super resolution 

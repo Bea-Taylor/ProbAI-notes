@@ -594,12 +594,12 @@ To construct $p(x)$ the key things you need are:
 we require $f$ to be invertible/bijective so that we can map $x$ to $z$, and $z$ to $x$. 
 
 Can use it for sampling:
-$$z \approx p(z)$$
+$$z \sim p(z)$$
 $$x=f(z)$$
 
 and can also use it for density: 
-$log p(x) =log p(z) + log|det \frac{\partial z}{\partial x}|$
-$z=f^{-1}(x)$
+$$log p(x) =log p(z) + log|det \frac{\partial z}{\partial x}|$$
+$$z=f^{-1}(x)$$
 
 The important parts are:
 * *Forwards*: $x=f(z)$
@@ -607,12 +607,12 @@ The important parts are:
 * *The jacobian determinant*: $det \frac{\partial z}{\partial x}$
 
 Deriving the change of variable formula: 
-In one dimension: $p(x)=p(z)|\frac{dz}{dx}|
-In higher dimensions: $p(x)=p(z)|det \frac{\partial z}{\partial x}|$
+* In one dimension: $p(x)=p(z)|\frac{dz}{dx}|$
+* In higher dimensions: $p(x)=p(z)|det \frac{\partial z}{\partial x}|$
 
 Need to structure the flow to make the jacobian easier to compute. 
 
-Can stack multiple bijections. The composiiton of bijections is a bijection. 
+Can stack multiple bijections. The composition of bijections is a bijection. 
 
 ### Coupling flows 
 
@@ -621,7 +621,7 @@ Can stack multiple bijections. The composiiton of bijections is a bijection.
 All about developing layers that: 
 * are expressive 
 * are invertible 
-* have chea to compute jacobian determinants. 
+* are cheap to compute their jacobian determinants. 
 
 Main categories of flows are: 
 * Det. identities
@@ -629,40 +629,31 @@ Main categories of flows are:
 * Coupling - the most popular type of flow, fast in both directions and relatively easy to compute
 * unbiased
 
-**Coupling flows**
-
-Don't/idenity transform the first d
+### Coupling flows
 
 Forward:
-$x_{1:d}=z_{1:d}$
-$x_{d+1:D}=\exp^{-\alpha_{d+1:D}} \dot (z_{d+1:D} - \mu_{d+1:D})$
+$$x_{1:d}=z_{1:d}$$
+$$x_{d+1:D}=\exp^{-\alpha_{d+1:D}} \cdot (z_{d+1:D} - \mu_{d+1:D})$$
 
 Inverse:
-$z_{1:d}=x_{1:d}$
-
-$z_{d+1:D}=x_{d+1:D} \dot e^{\alpha_{d+1:D}}+\mu_{d+1:D}$
+$$z_{1:d}=x_{1:d}$$
+$$z_{d+1:D}=x_{d+1:D} \cdot e^{\alpha_{d+1:D}}+\mu_{d+1:D}$$
 
 Attempted to implement this in python, notebook for this is [here](https://github.com/probabilisticai/probai-2021/blob/main/Day5/2_nielsen/realnvp_solution.ipynb)
 
-This was a very simple example, curent work is on photographs.
-
 ### Autoregressive flows
 
-Autoregressive flows are either fast for sampling or fast for density - but not both. 
-
-If you decide to use autoregreesive flow then need to use autoregressive NNs. 
-
-Can use *masked autoregressive NNs*. For example: MADE (for vectors), WaveNet (for sequences) or PixelCNN (for images). 
+Autoregressive flows are either fast for sampling or fast for density - but not both. If you decide to use autoregressive flows then need to use autoregressive NNs. Can use *masked autoregressive NNs*. For example: MADE (for vectors), WaveNet (for sequences) or PixelCNN (for images). 
 
 ### Continuous-time flows
 
-[Neural ODE](https://proceedings.neurips.cc/paper/2018/hash/69386f6bb1dfed68692a24c8686939b9-Abstract.html)
+[Paper on neural ODE example](https://proceedings.neurips.cc/paper/2018/hash/69386f6bb1dfed68692a24c8686939b9-Abstract.html). 
 
 $\frac{\partial z (t)}{\partial t} = f_{\theta}(z(t),t)$
 
 Uses an instantaneous change of variables formula.
 
-Related to [score based diffsuion models](https://proceedings.neurips.cc/paper/2021/hash/0a9fdbb17feb6ccb7ec405cfb85222c4-Abstract.html)
+Related to [score based diffusion models](https://proceedings.neurips.cc/paper/2021/hash/0a9fdbb17feb6ccb7ec405cfb85222c4-Abstract.html)
 
 ### Residual flows
 
@@ -670,7 +661,7 @@ $z = f(x) = x + h(x)$ for $h$ - contractive function (lipshitz cts?).
 
 Use [hutchinson's trace estimator](http://blog.shakirm.com/2015/09/machine-learning-trick-of-the-day-3-hutchinsons-trick/) to calculate the jacobian. 
 
-They truncate the sum in hutchinsons trace estimaor. This introduces bias - which they get round this by sawpping truncation for something called the russian roulette estimator. 
+In the paper they truncate the sum in hutchinsons trace estimaor. This introduces bias - which they get round this by swapping truncation for the [russian roulette estimator](https://arxiv.org/pdf/1306.4032.pdf). 
 
 ### Discrete flows
 
@@ -681,13 +672,11 @@ $z_d = (\mu_d + \sigma_d x_d) mod K$
 
 [Integer Discrete flows](https://proceedings.neurips.cc/paper/2019/hash/9e9a30b74c49d07d8150c8c83b1ccf07-Abstract.html): $z_d =  x_d + \mu_d$
 
-Both of these papers used a *straight through estimator* 
+Both of these papers used a **straight through estimator**. 
 
 ### Surjective flows 
 
-[surVAE Flows](https://proceedings.neurips.cc/paper/2020/hash/9578a63fbe545bd82cc5bbe749636af1-Abstract.html)
-
-* Authored by the lecturer!
+[surVAE Flows](https://proceedings.neurips.cc/paper/2020/hash/9578a63fbe545bd82cc5bbe749636af1-Abstract.html) - authored by the lecturer. 
 
 Can consider flows which are no longer bijective but instead surjective. 
 
@@ -696,14 +685,12 @@ Examples include:
 * $x=z[:n]$ 'tensor slicing'
 * $x=argmax(z)$
 
-## Bonus: Variational Inference with flows
+### Bonus: Variational Inference with flows
 Maximising the likelihood is exactly the same as minimising the KL. 
 
 Variational inference 
 
-Learn posterior approximation: 
-
-$q_{\lambda}(\theta) \approx p(\theta | D)$ 
+Learn posterior approximation: $q_{\lambda}(\theta) \sim p(\theta | D)$ 
 
 *Mean field Gaussian*: The common choice (which is traditional/'old-fashioned') is to use the mean field approximation, choosing each distribution to be Normal. 
 
@@ -712,43 +699,46 @@ We can adapt this, so where we would use a mean field approximation we can inste
 ---
 Q: What kind of flows do we want to use for variational inference?
 
-A: Well, desired properties would be : fast sampling, density for generated samples. 
+A: Well, desired property would be : fast sampling. 
 
-# Gaussian Processes 15/6/22
-## Arno Solin
+---
+
+## Gaussian Processes - Arno Solin
 
 ### Pragmatic introduction to Gaussian processes
 
-* A random vector is said to have a multivariate Gaussian distru=ibtuion if all linear combinations of x are Gaussian distributed. 
+* A random vector is said to have a multivariate Gaussian distribution if all linear combinations of $x$ are Gaussian distributed. 
 
-* A gaussian process can be considered as a distribution over functions. 
+* A gaussian process can be considered as a distribution over functions $f: X \rightarrow \mathbb{R}$ 
+$$ f(x) \sim GP(\mu(x), \kappa(x,x'))$$
 
-* A Gaussian process is completely defined by its mean and covariance. 
+* A Gaussian process is completely defined by its mean $\mu(x)$ and covariance $\kappa(x,x')$. 
 
-### Challenges that break the beauty 
+### Challenges/caveats of GPs
 
 **Three main challenges**
-* *Scaling to large data*. A naive solution to deal with the expanded covariance amtrix requires $O (n^3)$ compute. 
+1. *Scaling to large data*. A naive solution to deal with the expanded covariance matrix requires $O (n^3)$ compute. 
 
-* *Dealing with non-conjugate likelihoods*. 
+2. *Dealing with non-conjugate likelihoods*. 
 
-* *Representational power*. Gaussian processes are ideal for problems where it is easy to specify meaningful priors. If you can't... it becomes harder. 
+3. *Representational power*. Gaussian processes are ideal for problems where it is easy to specify meaningful priors. If you can't... it becomes harder. 
 
-*Scaling to large data*
-* exploit structure of the data 
-* exploit structure of the GP prior 
-* solve the linear system approximately - i.e. conjugate gradient solvers 
-* split problem into smaller chunks. Split domains, chunk the data, ...
-* approximate the problem
-* approximate the problem solution (SVGP - sparse variational gaussian processes). 
+**Challenge 1: Scaling to large data**
+The computational bottleneck can be tackled by:
+* exploiting the structure of the data 
+* exploiting the structure of the GP prior 
+* solving the linear system approximately - i.e. conjugate gradient solvers 
+* splitting problem into smaller chunks. Split domains, chunk the data, ...
+* approximating the problem
+* approximating the problem solution (SVGP - sparse variational gaussian processes). 
 
-*Dealing with non-conjugate likelihood models*
+**Challenge 2: Dealing with non-conjugate likelihood models**
 * MCMC - accurate but generally heavy 
 * Laplace approximation - fast and simple - but old fashioned!
 * Expectation approximation - efficient but tricky, requires lots of tuning 
 * Variational methods - dominant method today
 
-*Representational power*
+**Challenge 3: Representational power**
 * GPs can be seen as shallow but infinitely wide. This might not be the right model for the job!!! i.e would be a bad choice for a low dimensional manifold in a high dimensional space. 
 * BUT, they can be good tools to combine with other models! 
 
@@ -762,30 +752,28 @@ A: Well, desired properties would be : fast sampling, density for generated samp
 * GPs used as structured priors. 
 
 **Connection to Bayesian optimisation** 
-* used to figure out the next optimal point to look at - could this be used for healthcare decision modelling???
+* used to figure out the next optimal point to look at - seems interetsing, could this be used for healthcare decision modelling?
 
 ### Recap 
 
 * Gaussian processes provide a plug and play framework for probabilistic inference and learning 
 * give an explicit way of understanding prior information in a problem 
-* provide meaningful... 
+* provide meaningful uncertainty estimates and means for quantifying uncertainty. 
 
 Good (old-ish) book - Gaussian processes for machine learning - Rasmussen. 
 
-# Lecture 8 - Neural ODEs 
-## Cagatay Yildiz
+## Neural ODEs - Cagatay Yildiz
 
-This follows the jupyter notebook 'NODE.ipynb'. Find [here](https://github.com/probabilisticai/probai-2022) on github
+This follows the jupyter notebook 'NODE.ipynb' [here](https://github.com/probabilisticai/probai-2022)
 
-# Simulation-based inference - 16/6/22
-## Henri Pesonen 
+## Simulation-based inference - Henri Pesonen 
 
 Use simulators for real world phenomena. The complexity of the simulators prohibits access to likelihood function. 
 
 **Example: Transmissions of bacterial infections in daycare centers**
 * Cross sectional data from SIS model 
 * Continuous time model. 
-* Want to simulate which child in which daycare carries which strain of data? 
+* Want to simulate which child in which daycare centre carries which strain of data? 
 
 **Example: Personalised medicine**
 * Model how cancer cells are evolving in the tissue. 
@@ -794,30 +782,32 @@ Use simulators for real world phenomena. The complexity of the simulators prohib
 ### Simulator 
 
 A computer program defined as $x \approx p(x| \theta)$ that has 
-* input paramters 
-* stochastic output 
+* input paramters $\theta$
+* stochastic output $x$
 
 The data can be in any format, i.e. single time series, images, distributions of data points 
 
 ### Inference 
 
-Observe the data and infer the values of the paramters that generated them. 
-
-Might use, likelihood, or a bayesian approach, or MLE. 
+Observe the data and infer the values of the parameters that generated them. This could use likelihood, or a bayesian approach, or MLE. 
 
 ### Inference without likelihood 
 
 * use the capability to draw simulated data conditioned on the input parameters. 
-* likely true paramters values are thought to produce data that are similar enough to the observed data 
+* based on assumption that likely true parameters values produce data that is similar enough to the observed data. 
 
 **Distance metric**
+Distance metric used to measure how close the simulated data is to the observed data. 
 * Acceptable region defined by distance metric 
-*Choice of metric depends on the data format, e.g. could use Eulcidean or L1 etc 
+* Choice of metric depends on the data format, e.g. could use Eulcidean or L1 etc 
 
 **Data dimensionality**
 
 * In high dimensional spaces it becomes hadrer to generate data close to the observed data. 
-* Current approach is to use summary statistics $S$
+* Current approach is to use summary statistics $S(\cdot)$.
+$$ d(x, x^o) \sim d(S(x), S(x^o))$$
+* Sufficient statsictics usually don't exist. 
+
 
 **How do we select summary statistics?**
 * open problem 
@@ -828,19 +818,23 @@ Might use, likelihood, or a bayesian approach, or MLE.
 
 Putting this together get: **Rejection Approximate Bayesian Computation (ABC)** 
 
-for $i=1,...,N$, 
-$\theta^* ~ p(\theta)$
-INCOMPLETE
+for $i=1,...,N$
+$$\theta^* \sim p(\theta)$$
+$$x^* \sim p(x|\theta^*)$$
+while 
+$$ d(x^*, x^0)> \epsilon $$
+then 
+$$\theta^* \sim p(\theta)$$
+$$x^* \sim p(x |\theta^*)$$
+set $\theta_i =\theta^*$
 
 **Alternative approach**
 
-instead of choosing a fixed threshold can sample a large artifical set and choose a fraction of samples which are most similar to the observed data. Threshold can then be calculated based on which samples were selected. 
+Instead of choosing a fixed threshold can sample a large artifical set and choose a fraction of samples which are most similar to the observed data. Threshold can then be calculated based on which samples were selected. 
 
 Rejection ABC uses samples from the prior. 
 
-* unless we have lots of prior information about the parameters this is difficult 
-
-INCOMPLETE
+Unless we have lots of prior information about the parameters, sampling from the prior isn't effective. So can instead sequentially formulate importance sampling distributions with more probability mass in interesting regions - Sequential Monte Carlo ABC (SMC-ABC).
 
 ### Issues to be aware of 
 
@@ -849,19 +843,19 @@ Summary statistics may not catch relevant features of the data
 * didn't decrease dimension enough, so didn't solve the problem 
 * can be correlated - have redundant dimensions 
 
-Multiple summary statistics can have widely different scales, so unequal contributions to the distance metric 
+Multiple summary statistics can have widely different scales, so unequal contributions to the distance metric.
 
 Book on this subject: [Handbook of approximate bayesian computation](https://www.routledge.com/Handbook-of-Approximate-Bayesian-Computation/Sisson-Fan-Beaumont/p/book/9780367733728)
 
 ### Surrogate models
 
-Alternative apporach is to construct surrogate models of parts o
+Alternative apporach is to construct surrogate models of parts of the system. 
 
-Example: construct approximate likelihood at an abritrary paramter value 
+Example: construct approximate likelihood at an abritrary parameter value. 
 
 Synthetic likelihood is hardly efficient - the surrogate is fitted at each parameter value seperately. 
 
-**BOLFI - bayesian optimisation for likelihood free inference.** 
+**Bayesian optimisation for likelihood free inference (BOLFI)** 
 
 This approach uses Gaussian processes. 
 
@@ -873,18 +867,15 @@ Want to find parameter values that minimise the discrepancy function. Uses black
 Minimising the distance may not be optimal. Want to choose query points that are most informative about the model. 
 
 How to minimise the distance? 
-**LCBSC** 
 
-Lower confidence bound selection criteria for minimising the distance. 
+**Aquisition functions**
+* *Lower Confidence Bound Selection Criterion* Lower confidence bound selection criteria for minimising the distance. 
+* *MaxVar* the maximum variance aquisition method
+* *RandMaxVar* - randomised version. Randomised Maximum Variance 
+* *ExpIntVar* - Most efficient method: the expected integrated variance. The drawback of this method is that it is quite difficult to calculate. 
 
-**MaxVar** - the maximum variance aquisition method (?) 
-
-or **RandMaxVar** - randomised version. 
-
-Most efficient method: **ExpIntVar** - the expected integrated variance. The drawback of this method is that it is quite difficult to calculate. 
-
-Sampling from surrogate 
-* to represent the posterior distribution we require a sample drawn from it. Can use MCMC (?)
+**Sampling from surrogate**
+* to represent the posterior distribution we require a sample drawn from it. Can use MCMC 
 
 ### After inference
 
@@ -898,7 +889,7 @@ Likelihood free inference methods are based on several levels of approximations 
 
 ----
 
-Tutorial using ELFI is [here](https://colab.research.google.com/drive/1Dg9FZe07DJdGw5tZI5PIxNuAuszULsNP?usp=sharing#scrollTo=Vr_EBUiEZjkC)
+Notebook for tutorial using ELFI (lecturer's python package for doing simulation inference) is [here](https://colab.research.google.com/drive/1Dg9FZe07DJdGw5tZI5PIxNuAuszULsNP?usp=sharing#scrollTo=Vr_EBUiEZjkC)
 
 The generative model is described as a DAG.  
 
@@ -906,8 +897,7 @@ When doing BOLFI, doing NUTS may not be the best choice. You only need to choose
 
 NUTS sampler is default for the posterior sampler phase. 
 
-# Human-centered ML - 16/6/22
-## Fani Deligianni 
+## Human-centered ML - Fani Deligianni 
 
 [Computing technologies for healthcare team](https://www.gla.ac.uk/schools/computing/research/researchthemes/healthcaretechnologies/)
 
@@ -921,7 +911,7 @@ NUTS sampler is default for the posterior sampler phase.
 * transparency 
 * soietal and enviromental wellbeing 
 
-Healthcare models - how do we go from ML models to somehting which can be used [here](https://academic.oup.com/ckj/article/14/1/49/6000246)
+Healthcare models - how do we go from ML models to something which can be used? Paper [here](https://academic.oup.com/ckj/article/14/1/49/6000246)
 
 **ABCD Guide** 
 * A: callibration in the large (this means external validation), or the model intercept
@@ -935,11 +925,11 @@ Think about clinical consequences, what matters more sensitivity or specificity?
 
 i.e. in breast cancer a false-negative is more harmful than a false-positive. 
 
-Would need to do decision analysis - explicit validation of health outcomes. Can look at net- benefit. 
+Would need to do decision analysis - explicit validation of health outcomes. Can look at net benefit. 
 
 **Net benefit**
 
-$net \space benefit = sensitivity*prevalence-(1-specificity)*(1-prevalence)* \frac{threshold probability}{1-threshold probability}$
+$net \space benefit = sensitivity*prevalence-(1-specificity)*(1-prevalence)* \frac{threshold \space probability}{1-threshold \space probability}$
 
 Compare the model with treating all positive, treating none or treating based on another factor, i.e. duration of illness. 
 
@@ -947,33 +937,33 @@ Experts can inform the threshold for treating people.
 
 **Uncertainty**
 
-Frequentist approach provides confidence intervals. 
+* Frequentist approach provides confidence intervals. 
 
-**WHat guarantees can we use against dicriminatory bias?**
+**What guarantees can we use against dicriminatory bias?**
+
 * Look at calibration within groups.
 
 ### Transparency and explainability
 
 * explainability is required to ensure impartial decision making process
-* people have a right to know wy decisions were made for them. 
+* people have a right to know why decisions were made for them. 
 
-INCOMPLETE
-**Who is the target audience of explainability?**
-* clinicians - need to ttrust the model 
+**Think about who is the target audience of explainability**
+* clinicians - need to be able to trust the model 
 * patients - need to understand decisions 
-* data scientists/developers ...
+* data scientists/developers 
+* investors
 
-Traditionally use interpretable models, need to make an efoort to explain more complicated models. i.e. NN can be explainable models. 
+Traditionally use interpretable models in healthcare situations. But maybe we should make more of an effort to explain more complicated models. i.e. NN can be explainable models. 
 
 **How do we explain a model?** 
 * Think about local (personal decision) based explanations vs. more global explanations
-
+* For example, when talking to a patient how can we explian the model in a way which is relevant to their experience? 
 
 Paper on: [The next generation of medical decision support](https://pubmed.ncbi.nlm.nih.gov/33733193/)
 
-# Bayesian Neural Networks - 17/6/22
-
-### Bayesian Neural Networks 101
+# Bayesian Neural Networks - Bayesian Neural Networks 101 - Yingzhen Li
+Lecture slides are [here](https://github.com/probabilisticai/probai-2022/blob/main/day_5/5_yingzhen/ProbAI2022_vi_bnn_tutorial.pdf). And lecturers notes are [here](https://github.com/probabilisticai/probai-2022/blob/main/day_5/5_yingzhen/notes.pdf). 
 
 Bayesian solution: 
 * Put a prior $p(\theta)$ on network parameters $\theta$, e.g. gaussian prior
@@ -1046,5 +1036,8 @@ Can use shannon entropy to compute uncertainty.
 $H[p]=- \sum plog(p)$ 
 
 ### Applications 
-u
+
 BBNs in medical imaging - Super resolution 
+
+## Linearised laplace approximation in Bayesian Neural Networks - Miguel Hernandez Lobato 
+Slides are [here](https://github.com/probabilisticai/probai-2022/blob/main/day_5/5_jose/slides_helsinki.pdf). 
