@@ -1,13 +1,14 @@
 # ProbAI Summer School Summary Notes 
-## 13/6/22 - 18/6/22
+## 13/6/22 - 18/6/22 
 ### University of Helsinki 
+
 * [Prior reading](https://probabilistic.ai/self-study/)
 * [General github repo](https://github.com/probabilisticai/probai-2022/)
 * [Lecture recordings]()
 
 These notes are just a summary, all of the mathematical details and code are not duplicated here. There is a lot more detail in the lecture notes, accompanying notebooks and recordings. 
 
-## General Introduction  
+## General Introduction ## 
 
 * Mostly we care about how well the model works for *new inputs* drawn from the same distribution. This is easy if we have infinite data, but what if we have a limited sample? 
 
@@ -22,7 +23,7 @@ How do we approximate the posterior?
 * Distributional approximation - slightly older method
 * Flexible approximation (i.e. Normalising flow) - what a lot of the summer school will focus on 
 
-## Introduction to Probabilistic Models - 13/6/22 - Antonio Salmeron 
+## Introduction to Probabilistic Models - 13/6/22 - Antonio Salmeron ##
 [Lecturer's notes](https://github.com/probabilisticai/probai-2022/blob/main/day_1/1_antonio/inference-probai.pdf)
 
 Examples of probabilistic models:
@@ -218,7 +219,7 @@ PPLs are designed to let the user focus on modelling while inference happens aut
 
 *Convergence diagnostics* 
 
-* $\hat{R}$
+* $$\hat{R}$$
 * traceplots 
 
 *Effective sample size (ESS)*
@@ -285,8 +286,6 @@ This is a new model and complicated. To better understand it we run prior predic
 
 No one size fits all! Bayesian workflow is all about updating and considering what we're doing as we go. 
 
-Have postdoc positions at Oxford - contact: Seth Flaxman, Elizaveta Semenova. 
-
 ## Variational Inference and Optimization 1 - Helge Langseth, Andres Masegosa, Thomas Nielsen 
 
 ### Part 1 (Before lunch)
@@ -301,7 +300,7 @@ Idea of variational inference: approximate $p(\theta | D)$ using $q(\theta | D)$
 > * CAVI - coordinate ascent variational inference algorithm 
 
 Formalisation of approximate inference through optimisation. Given a family of tractable distributions $Q$ and a distance measure $\Delta$:  
-$ \hat{q}= arg min_{q \in Q} \Delta (q(\theta) || p(\theta | D)) $. 
+$$ \hat{q}= arg min_{q \in Q} \Delta (q(\theta) || p(\theta | D)) $$. 
 
 Note: ideally $\Delta$ would be a metric (i.e. positive, symmetric and satisfy triangle inequality). However generally we use the Kullback-Leibler divergence (even though this isn't a proper metric). 
 
@@ -309,7 +308,7 @@ Note: ideally $\Delta$ would be a metric (i.e. positive, symmetric and satisfy t
 > $$KL(f||g) = \int_{\theta} f(\theta) log(\frac{f(\theta)}{g(\theta)}= \mathbb{E}_{\theta \sim f} [log (\frac{f(\theta)}{g(\theta)})]$$
 
 ### Variational Bayes setup
-Variational bayes uses information projection. We want to approximate $p(\theta | D) by 
+Variational bayes uses information projection. We want to approximate $p(\theta | D)$ by 
 $$ \hat{q}(\theta) = argmin_{q \in Q} KL (q(\theta) || p(\theta | D))$$
 
 We can rearrange KL as 
@@ -321,7 +320,7 @@ where $L$ is the ELBO function.
 
 **Setup:**
 * we have observed our data $D$, and can calculate the full joint $p(\theta, D)$. 
-* we use the ELBO as our objective and assume $q(\theta) factorises. 
+* we use the ELBO as our objective and assume $q(\theta)$ factorises. 
 * posit a variational family of distributions $q_j( | \lambda_j)$. So we choose the distributional form while optimising parameters $\lambda_j$. 
 
 **Algorithm:** 
@@ -536,7 +535,7 @@ If the true posterior is complicated and $q(\psi)$ is a simple gaussian, we can 
 
 I want to transform $q$ so that I end up with something closer to the true posterior. This helps to get correlated distributions - i.e. where variables are dependent. To do this can apply normalising flows. 
 
-Start by sampling $z_0$ from a simple distribution. Then going to apply a sequence of transformations to end up with soemthing more complicated. i.e. then apply a sequence of invertible transformations: $f_k : \R^D \rightarrow \R^D$. 
+Start by sampling $z_0$ from a simple distribution. Then going to apply a sequence of transformations to end up with soemthing more complicated. i.e. then apply a sequence of invertible transformations: $f_k : \mathbb{R}^D \rightarrow \mathbb{R}^D$. 
 
 $$z_k=f_k \prod f_{k-1} \prod... \prod f_1(z_0)$$
 and for each transformation $z_k=f_k(z_{k-1})$. End up with a way of getting $ln q_k (z_k)$ that allows for more complicated relationships between latent variables. 
