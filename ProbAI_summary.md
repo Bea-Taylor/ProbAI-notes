@@ -4,7 +4,7 @@
 
 * [Prior reading](https://probabilistic.ai/self-study/)
 * [General github repo](https://github.com/probabilisticai/probai-2022/)
-* [Lecture recordings]()
+* [Lecture recordings](https://www.youtube.com/channel/UCcMwNzhpePJE3xzOP_3pqsw)
 
 These notes are just a summary, all of the mathematical details and code are not duplicated here. There is a lot more detail in the lecture notes, accompanying notebooks and recordings. 
 
@@ -19,6 +19,7 @@ These notes are just a summary, all of the mathematical details and code are not
 * Rare to be able to analytically calculate the posterior -  so we have to approximate it!
 
 How do we approximate the posterior?
+
 * MCMC - common method but don't cover much of this in this summer school 
 * Distributional approximation - slightly older method
 * Flexible approximation (i.e. Normalising flow) - what a lot of the summer school will focus on 
@@ -27,18 +28,21 @@ How do we approximate the posterior?
 [Lecturer's notes](https://github.com/probabilisticai/probai-2022/blob/main/day_1/1_antonio/inference-probai.pdf)
 
 Examples of probabilistic models:
+
 * Predictive medicine 
 * Self driving cars
 * Image generation [imagen](https://imagen.research.google/)
 * Land use - using satelite images to monitor protected areas 
 
 These examples:
+
 * Operate in environments where there's lots of data 
 * Data doesn't cover every possible scenario -> uncertainty 
 * Use probabilistic models 
 * Use inference algorithms to carry out prediction and structure analysis. 
 
 Probabilistic models offer: 
+
 * Principled quantification of uncertainty
 * Natural way of dealing with missing data 
 
@@ -57,7 +61,9 @@ A: Yes, the more data we give it, the better the model - it is learning from exp
 The most basic example of linear regression is not probabilistic - but we can look at it from a Bayesian perspective. 
 
 > There are two types of uncertainty:
+
 > * **Aleatoric** - due to randomness, i.e. the variability in the outcome of an experiment due to random effects. 
+
 > * **Epistemic** - due to lack of knowledge. 
 
 Assume we want to predict $Y$ from $X$. We assume a joint distribution $p(x,y)$ - this is Epistemic uncertainty - it is unreducible. We can predict Y using $p(y|x)=\frac{p(x,y)}{p(x)}$. What is $p(y)$ for a specific $x$? This is aleatoric uncertainty - it is reducible. 
@@ -67,6 +73,7 @@ Aleatoric uncertainty can be reduced by gathering more data, or increasing the n
 We want proabilitic models which can operate in high dimensional spaces and that support efficient inference and learning. 
 
 Probabilitic **graphical** models offer:
+
 * *Structured* specification of high dimensional distributions in terms of low dimensional factors. 
 * *Efficient* inference and learning taking advantage of the structure.
 * *Graphical* representation is interpretable by humans. 
@@ -91,10 +98,12 @@ The previous method is a **fully bayesian** approach. Sometimes you don't need t
 ### Bayesian networks 
 
 A Bayesian network over random variables $X_1,..., X_n$ consists of 
+
 * a directed acyclic graph (DAG)
 * A set of local conditional distributions 
 
 there are three possible network structures in a DAG: 
+
 * serial connection 
 * diverging connection 
 * converging connection 
@@ -104,22 +113,26 @@ From the DAG can figure out which variables are conditional/dependent on one ano
 > **Generative vs. Discriminative models**
 
 > *Generative* - learn $p(x,y)$ from data. Compute $p(y|x)$ using Baye's rule. 
+
 > * Examples: Naive Bayes, Bayesian networks in general, ...
 > * Advantages: Can be used to generate synthetic data 
 > * Note: Higher asymptotic error but reached more quickly - so can be better for small datasets
 
 > *Discriminative models* - Estimate $p(y|x)$ directly from the data
+
 > * Examples: Logistic rgression, NNs, ...
 > * Note: Lower asymptotic error but reached more slowly 
 
 Graphical DAG notation:
+
 * Plate notation - notation for drawing graphical DAGs that collapses the iterations. 
-* Vairables in a grey circle are observed. Variables in a white circle are unobserved.
+* Variables in a grey circle are observed. Variables in a white circle are unobserved.
 * Variables with a circle around them are modelled as random variables. 
 
 Using Monte Carlo can be a good first way to understand what your posterior is. 
 
 ### Example: factor analysis model 
+
 * In general, latent variable models are regarded as probabilistic models where some of the variables cannot be observed. 
 * Factor analysis summarises a high dimensional observation $X$ of correlated variables by a smaller set of factors $Z$ which are assumed independent a priori. 
 
@@ -169,27 +182,31 @@ Scikit learn [cheat sheet](https://scikit-learn.org/stable/tutorial/machine_lear
 Q: Why PPLs?
 
 A: 
+
 * stacked architecture
 * simplify probabilistic machine learning code
 * reduce development time and cost to encourage experimentation
 * reduce the necessary level of expertise
-* democratisation of the development of probabilistic ML systems 
----
+* democratisation of the development of probabilistic ML systems
 
+---
 
 **Brief history of PPLs**
 
 90s/early 2000s - 1st generation of PPLs
+
 * Turing complete probabilistic programming languages
 * Used monte carlo methods
 * Didn't scale to big data, or higher dimensional data 
 
 2nd generation of PPLs
+
 * Inference engine based on message passage algorithms 
 * Scaled to large datsets and high dimensional data 
 * Limited probabilistic model family 
 
 3rd generation of PPLs - where we are now 
+
 * pyTorch, Pyro, PyMC etc...
 * Black box variational inference and hamiltonian monte carlo 
 
@@ -200,6 +217,7 @@ See jupyter notebook [here](https://github.com/PGM-Lab/2022-ProbAI)
 
 ### Example - In the ice-cream shop model: 
 This is coded up in the notebook. 
+
 * N - number of data points
 * $\alpha, \beta$ are coefficients for the linear desciption of how ice-cream sales depend on temp. They are random variables. 
 * $\mu$ is the mean about which temperature is distributed. it is a random variable. 
@@ -237,12 +255,15 @@ Modern Bayesian workflow is quite complicated - [Paper by Gelman](http://www.sta
 **Prior predictive checking**
 
 Prior predictive checking consists in simulating data from the priors. 
+
 * Visualise priors (especially after transformation) 
 * This shows the range of data compatible with the model 
 * It helps understand the adequacy of the chosen priors 
 
 **Iterative model building**
+
 A possible realisation of the Bayesian workflow loop:
+
 * Understand the domain and problem (background knowledge) 
 * Formulate the model mathematically 
 * Implement model, test, debug
@@ -267,6 +288,7 @@ Might find that our model isn't very good. Perhaps it doesn't pass our prior pre
 
 Domain understanding - what do the clinical experts expect the model to show? 
 Well looking to fit a curve that is: 
+
 * flat at low concentrations
 * is able to capture the hook effect. 
 
@@ -279,6 +301,7 @@ Can use kernel design - this allows us to specify a wider range of gaussian proc
 This is a new model and complicated. To better understand it we run prior predictives - this helps us to understand how the parameters change the model. 
 
 ### Conclusions
+
 * use domain knowledge (expert guidance on the real-world problem)
 * priors informed by domain knowledge
 * using external data to point at a latent variable 
@@ -294,6 +317,7 @@ GitHub repo for this [here](https://github.com/PGM-Lab/2022-ProbAI/tree/main/Day
 Idea of variational inference: approximate $p(\theta | D)$ using $q(\theta | D)$. Note: as shorthand write $q(\theta) = q(\theta | D)$. Then do  abunch of maths, so that finding $q(\theta)$ is an optimisation problem. 
 
 > Terminology
+
 > * KL - Kullback Leibler divergence 
 > * ELBO - evidence lower bound 
 > * MF - mean field assumption 
@@ -319,11 +343,13 @@ where $L$ is the ELBO function.
 > $$L(q) = E_q [log \frac{p(\theta, D)}{q(\theta)}]$$
 
 **Setup:**
+
 * we have observed our data $D$, and can calculate the full joint $p(\theta, D)$. 
 * we use the ELBO as our objective and assume $q(\theta)$ factorises. 
 * posit a variational family of distributions $q_j( | \lambda_j)$. So we choose the distributional form while optimising parameters $\lambda_j$. 
 
 **Algorithm:** 
+
 Repeat the following until neglible imporvements in terms of $L(q)$
 * for each j: choose $\lambda_j$ to maximise $L(q)$ based on D and $\{ \lambda_i \}_{i \neq j}$
 * calculate the new $L(q)$. 
@@ -358,6 +384,7 @@ It's quite easy to fit a curve using a standard neural network - but we only get
 We want to optimise the ELBO using gradient descent. 
 
 > gradient ascent algorithm for maximising a function $f (\lambda)$
+
 > * initialise $\lambda^{(0)}$
 > * then update according to 
 > $$ \lambda^{(t)} \leftarrow \lambda^(t-1) + \rho \cdot \nabla_{\lambda} f(\lambda ^{(t-1)}) $$
@@ -365,6 +392,7 @@ We want to optimise the ELBO using gradient descent.
 Standard gradient ascent is not enough for ELBO optimisation. 
 
 We won't be able to calculate the gradient exactly since:
+
 * we may have to resort to mini-batching (calculating the gradient for a 'random subset')
 * even for a mini batch may not be able to calculate the gradient exactly. 
 
@@ -387,10 +415,12 @@ Interesting paper on this topic:
 **Score function gradient vs. reparameterised gradient**
 
 *Score function gradient*: 
+
 * gradients point towards the mode of the approximation
 * only requires $ln q(\theta | \lambda)$ to be differentiable.  
 
 *Reparameterisation gradient*: 
+
 *  requires $q(\theta | \lambda)$ to be reparametrisable. 
 * requires $ln p(D, \theta)$ and $ln q(\theta | \lambda)$ be differentiable. 
 
@@ -399,6 +429,7 @@ The reparametrisation trick doesn't use the mean field approximation.
 
 **Summary of reprameterisation**
 Reparameterisation: gradients align with model's gradient. But: 
+
 * requires $q(\theta | \lambda)$ to be reparametrisable. 
 * requires $ln p(D, \theta)$ and $ln q(\theta | \lambda)$ be differentiable - i.e. no categorical variables. 
 
@@ -417,6 +448,7 @@ $$ sensor \sim N(temp, 1)$$
 $$p(sensor =18 , temp)$$
 
 > **Pyro models:** 
+
 > * random variables `pyro.samples`
 > * observations `pyro.samples` with the `obs` argument 
 
@@ -427,6 +459,7 @@ Variational solution:
 $$min KL( q(temp)|| p(temp | sensor=18))$$
 
 > **Pyro guides:**
+
 > * guides are abitrary stochastic functions. 
 > * guides produce samples for those variables of the model which are not observed. 
 
@@ -587,6 +620,7 @@ Normalising flows are useful for generative modelling and also for variational i
 
 ### The framework 
 To construct $p(x)$ the key things you need are:
+
 * Base distribution $p(z)$
 * and the mapping $f$
 
@@ -601,11 +635,13 @@ $$log p(x) =log p(z) + log|det \frac{\partial z}{\partial x}|$$
 $$z=f^{-1}(x)$$
 
 The important parts are:
+
 * *Forwards*: $x=f(z)$
 * *Inverse*: $z=f^{-1}(x)$
 * *The jacobian determinant*: $det \frac{\partial z}{\partial x}$
 
 Deriving the change of variable formula: 
+
 * In one dimension: $p(x)=p(z)|\frac{dz}{dx}|$
 * In higher dimensions: $p(x)=p(z)|det \frac{\partial z}{\partial x}|$
 
@@ -618,11 +654,13 @@ Can stack multiple bijections. The composition of bijections is a bijection.
 **How to build efficient flows?**
 
 All about developing layers that: 
+
 * are expressive 
 * are invertible 
 * are cheap to compute their jacobian determinants. 
 
 Main categories of flows are: 
+
 * Det. identities
 * Autoregressive 
 * Coupling - the most popular type of flow, fast in both directions and relatively easy to compute
@@ -680,6 +718,7 @@ Both of these papers used a **straight through estimator**.
 Can consider flows which are no longer bijective but instead surjective. 
 
 Examples include: 
+
 * $x = round(z)$
 * $x=z[:n]$ 'tensor slicing'
 * $x=argmax(z)$
@@ -696,6 +735,7 @@ Learn posterior approximation: $q_{\lambda}(\theta) \sim p(\theta | D)$
 We can adapt this, so where we would use a mean field approximation we can instead use a flow. 
 
 ---
+
 Q: What kind of flows do we want to use for variational inference?
 
 A: Well, desired property would be : fast sampling. 
@@ -716,6 +756,7 @@ $$ f(x) \sim GP(\mu(x), \kappa(x,x'))$$
 ### Challenges/caveats of GPs
 
 **Three main challenges**
+
 1. *Scaling to large data*. A naive solution to deal with the expanded covariance matrix requires $O (n^3)$ compute. 
 
 2. *Dealing with non-conjugate likelihoods*. 
@@ -723,7 +764,9 @@ $$ f(x) \sim GP(\mu(x), \kappa(x,x'))$$
 3. *Representational power*. Gaussian processes are ideal for problems where it is easy to specify meaningful priors. If you can't... it becomes harder. 
 
 **Challenge 1: Scaling to large data**
+
 The computational bottleneck can be tackled by:
+
 * exploiting the structure of the data 
 * exploiting the structure of the GP prior 
 * solving the linear system approximately - i.e. conjugate gradient solvers 
@@ -732,25 +775,30 @@ The computational bottleneck can be tackled by:
 * approximating the problem solution (SVGP - sparse variational gaussian processes). 
 
 **Challenge 2: Dealing with non-conjugate likelihood models**
+
 * MCMC - accurate but generally heavy 
 * Laplace approximation - fast and simple - but old fashioned!
 * Expectation approximation - efficient but tricky, requires lots of tuning 
 * Variational methods - dominant method today
 
 **Challenge 3: Representational power**
+
 * GPs can be seen as shallow but infinitely wide. This might not be the right model for the job!!! i.e would be a bad choice for a low dimensional manifold in a high dimensional space. 
 * BUT, they can be good tools to combine with other models! 
 
 ### Connections and approaches to GPs
 
 **Connection to Neural Networks**
+
 * showed that untrained single layer NNs converge to GPs in the limit of infinite width. 
 
 **Connection to physics**
+
 * models often written in terms of ODEs/PDEs etc
 * GPs used as structured priors. 
 
 **Connection to Bayesian optimisation** 
+
 * used to figure out the next optimal point to look at - seems interetsing, could this be used for healthcare decision modelling?
 
 ### Recap 
@@ -770,17 +818,20 @@ This follows the jupyter notebook 'NODE.ipynb' [here](https://github.com/probabi
 Use simulators for real world phenomena. The complexity of the simulators prohibits access to likelihood function. 
 
 **Example: Transmissions of bacterial infections in daycare centers**
+
 * Cross sectional data from SIS model 
 * Continuous time model. 
 * Want to simulate which child in which daycare centre carries which strain of data? 
 
 **Example: Personalised medicine**
+
 * Model how cancer cells are evolving in the tissue. 
 * Want to simulate how the combination of drugs is kiling the cancerous cells. 
 
 ### Simulator 
 
 A computer program defined as $x \approx p(x| \theta)$ that has 
+
 * input paramters $\theta$
 * stochastic output $x$
 
@@ -796,7 +847,9 @@ Observe the data and infer the values of the parameters that generated them. Thi
 * based on assumption that likely true parameters values produce data that is similar enough to the observed data. 
 
 **Distance metric**
-Distance metric used to measure how close the simulated data is to the observed data. 
+
+Distance metric used to measure how close the simulated data is to the observed data.
+
 * Acceptable region defined by distance metric 
 * Choice of metric depends on the data format, e.g. could use Eulcidean or L1 etc 
 
@@ -809,6 +862,7 @@ $$ d(x, x^o) \sim d(S(x), S(x^o))$$
 
 
 **How do we select summary statistics?**
+
 * open problem 
 * use bespoke summary statistics - could use *domain expertise*, explore the simulator prior to inference, diagnose the inference results. 
 * also automatic algorithms for selecting/constructing summary statistics. 
@@ -838,6 +892,7 @@ Unless we have lots of prior information about the parameters, sampling from the
 ### Issues to be aware of 
 
 Summary statistics may not catch relevant features of the data
+
 * can decrease dimension too much thus losing information
 * didn't decrease dimension enough, so didn't solve the problem 
 * can be correlated - have redundant dimensions 
@@ -859,6 +914,7 @@ Synthetic likelihood is hardly efficient - the surrogate is fitted at each param
 This approach uses Gaussian processes. 
 
 Gaussian process surrogates can utilise active learning. 
+
 * Different strategies for selecting parameter values where to query the simulator. This reduces the number of queries to produce reasonable approximations to posterior ditribution. 
 
 Want to find parameter values that minimise the discrepancy function. Uses black box optimisation. Aquisition strategies balance exploration and exploitation. 
@@ -868,18 +924,22 @@ Minimising the distance may not be optimal. Want to choose query points that are
 How to minimise the distance? 
 
 **Aquisition functions**
+
 * *Lower Confidence Bound Selection Criterion* Lower confidence bound selection criteria for minimising the distance. 
 * *MaxVar* the maximum variance aquisition method
 * *RandMaxVar* - randomised version. Randomised Maximum Variance 
 * *ExpIntVar* - Most efficient method: the expected integrated variance. The drawback of this method is that it is quite difficult to calculate. 
 
 **Sampling from surrogate**
+
 * to represent the posterior distribution we require a sample drawn from it. Can use MCMC 
 
 ### After inference
 
 **How reliable are the results?**
+
 Different error sources:
+
 * algorithm performance 
 * model performance 
 * simulator performance 
@@ -913,6 +973,7 @@ NUTS sampler is default for the posterior sampler phase.
 Healthcare models - how do we go from ML models to something which can be used? Paper [here](https://academic.oup.com/ckj/article/14/1/49/6000246)
 
 **ABCD Guide** 
+
 * A: callibration in the large (this means external validation), or the model intercept
 * B: calibration slope
 * C: discrimination with the reciever operating characteristic curve 
@@ -948,6 +1009,7 @@ Experts can inform the threshold for treating people.
 * people have a right to know why decisions were made for them. 
 
 **Think about who is the target audience of explainability**
+
 * clinicians - need to be able to trust the model 
 * patients - need to understand decisions 
 * data scientists/developers 
@@ -956,6 +1018,7 @@ Experts can inform the threshold for treating people.
 Traditionally use interpretable models in healthcare situations. But maybe we should make more of an effort to explain more complicated models. i.e. NN can be explainable models. 
 
 **How do we explain a model?** 
+
 * Think about local (personal decision) based explanations vs. more global explanations
 * For example, when talking to a patient how can we explian the model in a way which is relevant to their experience? 
 
@@ -965,11 +1028,13 @@ Paper on: [The next generation of medical decision support](https://pubmed.ncbi.
 Lecture slides are [here](https://github.com/probabilisticai/probai-2022/blob/main/day_5/5_yingzhen/ProbAI2022_vi_bnn_tutorial.pdf). And lecturers notes are [here](https://github.com/probabilisticai/probai-2022/blob/main/day_5/5_yingzhen/notes.pdf). 
 
 Bayesian solution: 
+
 * Put a prior $p(\theta)$ on network parameters $\theta$, e.g. gaussian prior
 * approximate bayesian predictive inference: 
 * monte carlo approximation 
 
 *Steps for approximate inference in BNNs*
+
 1. construct the $q(\theta) \approx p(\theta|D)$ distribution. 
 2. Fit the $q(\theta)$ distribtuion. e.g. using variational inference. 
 3. Compute prediction with Monte Carlo predictions 
@@ -992,16 +1057,19 @@ ___
 **Using other $q$ distributions**
 
 Can use more complicated q distributions. 
+
 * Pro: more fleixble approximations -> better posterior approximations 
 * Con: higher time and space complexities
 
 Can use *last-layer BNN*. 
+
 * use deterministic layers for all but the last layer
 * for the last layer use full covariance gaussian approximate posterior. 
 
 * For regression this is equivakent to bayesian linear regression (BLR) with NN-based non-linear features. We use a KL regulariser for the last layer only. 
 
 Can make it more economic using *MC-dropout*.
+
 * add drop out layers to the network 
 * perform drop out during training 
 
@@ -1022,14 +1090,18 @@ Can use the upper confidence bound (UCB) as an acquisition function.
 ### Case study 2: Detecting adversarial examples 
 
 Hypothesis:
+
 * adversarial examples 
 
 **Uncertainty measures**
+
 total uncertainty = epsitemic uncertainty + aleatoric uncertainty 
 
 imagine flipping a coin
-*epistemic uncertainty* how much do i believe the coin is fair?
-*aleatoric uncertainty* what's the next coin flip outcome? 
+
+> *epistemic uncertainty* how much do I believe the coin is fair?
+
+> *aleatoric uncertainty* what's the next coin flip outcome? 
 
 Can use shannon entropy to compute uncertainty. 
 $H[p]=- \sum plog(p)$ 
